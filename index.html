@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeNA — Sea Beyond Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep: #0a1628;
+    --ocean: #0d2b4e;
+    --mid: #1a4a7a;
+    --teal: #1e6b8a;
+    --aqua: #2eb8c0;
+    --foam: #a8dde0;
+    --gold: #c9a84c;
+    --sand: #e8d5a3;
+    --white: #f5f0e8;
+    --muted: rgba(245,240,232,0.55);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--deep);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── WATER ANIMATION BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 120% 60% at 50% 100%, rgba(30,107,138,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 40% at 20% 80%, rgba(13,43,78,0.6) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 30% at 80% 60%, rgba(46,184,192,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: pulse 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse {
+    0%   { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 100px 40px 80px;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--aqua), var(--gold), var(--aqua), transparent);
+  }
+
+  .project-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--aqua);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.4s;
+  }
+
+  h1 span {
+    color: var(--aqua);
+    font-style: italic;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--sand);
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.6s;
+    margin-bottom: 40px;
+  }
+
+  .wave-divider {
+    margin: 40px auto 0;
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 32px 40px;
+  }
+
+  nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 8px 18px;
+    border: 1px solid rgba(46,184,192,0.2);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  nav a:hover {
+    color: var(--aqua);
+    border-color: var(--aqua);
+    background: rgba(46,184,192,0.06);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    position: relative;
+    z-index: 5;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 60px 32px 120px;
+  }
+
+  /* ── ARTICLE CARD ── */
+  .article {
+    margin-bottom: 100px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.9s ease forwards;
+  }
+
+  .article:nth-child(1) { animation-delay: 0.1s; }
+  .article:nth-child(2) { animation-delay: 0.2s; }
+  .article:nth-child(3) { animation-delay: 0.3s; }
+  .article:nth-child(4) { animation-delay: 0.4s; }
+  .article:nth-child(5) { animation-delay: 0.5s; }
+  .article:nth-child(6) { animation-delay: 0.6s; }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .article-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--aqua);
+    letter-spacing: 0.15em;
+    opacity: 0.8;
+  }
+
+  .article-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 3px 10px;
+    border-radius: 1px;
+  }
+
+  .article h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .article h2 em {
+    color: var(--aqua);
+    font-style: italic;
+  }
+
+  .article-rule {
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--aqua), transparent);
+    margin-bottom: 28px;
+  }
+
+  .article p {
+    color: rgba(245,240,232,0.82);
+    font-size: 18px;
+    line-height: 1.85;
+    margin-bottom: 22px;
+    font-weight: 300;
+  }
+
+  .article p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 68px;
+    font-weight: 700;
+    float: left;
+    line-height: 0.75;
+    margin-right: 10px;
+    margin-top: 8px;
+    color: var(--aqua);
+  }
+
+  blockquote {
+    margin: 36px 0;
+    padding: 24px 32px;
+    border-left: 3px solid var(--gold);
+    background: rgba(201,168,76,0.04);
+    font-style: italic;
+    font-size: 19px;
+    color: var(--sand);
+    line-height: 1.7;
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: 12px;
+    font-family: 'Space Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* separator between articles */
+  .sep {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 100px;
+    opacity: 0.3;
+  }
+  .sep::before, .sep::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--teal));
+  }
+  .sep::after { background: linear-gradient(90deg, var(--teal), transparent); }
+  .sep span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--aqua);
+    letter-spacing: 0.2em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid rgba(46,184,192,0.15);
+  }
+
+  footer p {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  footer .logo-ft {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--aqua);
+    margin-bottom: 16px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--deep); }
+  ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header { padding: 60px 24px 50px; }
+    main { padding: 40px 20px 80px; }
+    .article p:first-of-type::first-letter { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="project-label">Sea Beyond Project &nbsp;/&nbsp; VeNA</p>
+  <h1>Ve<span>NA</span></h1>
+  <p class="subtitle">Venice &amp; the New Atlantis — Stories from a Sunken Future</p>
+  <div class="wave-divider"></div>
+</header>
+
+<nav>
+  <a href="#video1">Glaciers</a>
+  <a href="#video2">Breaking News</a>
+  <a href="#video3">Lost Culture</a>
+  <a href="#video4">Biodiversity</a>
+  <a href="#video5">The Vlog</a>
+  <a href="#video6">The Gondolier</a>
+</nav>
+
+<main>
+
+  <!-- VIDEO 1 -->
+  <article class="article" id="video1">
+    <div class="article-meta">
+      <span class="article-num">01 / 06</span>
+      <span class="article-tag">Dystopia · Narration</span>
+    </div>
+    <h2>How Melting Ice <em>Slowly Sank Venice</em></h2>
+    <div class="article-rule"></div>
+    <p>What you've witnessed in the past decades is the consequence of everyone's negligence. There's no other way to put it. The glaciers have melted down — it's already too late.</p>
+    <p>In the beginning no one cared or worried about it, but now most of the world is sunken. Venice was one of the first cities to be submerged, and now it has become a sunken relic of the past.</p>
+    <p>The first touristic place to disappear was the iconic San Marco Square. Today, only the top halves of Palazzo Ducale, San Marco's Basilica and San Marco's Campanile are still visible above the lagoon. What followed was the impossibility to walk through higher zones, like Rialto, where the bridge is now just a useless obstacle in the enlarged Canal Grande.</p>
+    <p>In the end every calle was submerged and people were forced to flee and take refuge in the nearby towns, causing one of the biggest crises the area has seen in decades.</p>
+    <p>All we have left are venetian ruins, and there is barely anything left of the culture of this city. To think that all this happened with the melting of barely 10% of the world's ice compared to 2026 — you can guess what happened later to other cities and communities all around the globe.</p>
+  </article>
+
+  <div class="sep"><span>~ ~ ~</span></div>
+
+  <!-- VIDEO 2 -->
+  <article class="article" id="video2">
+    <div class="article-meta">
+      <span class="article-num">02 / 06</span>
+      <span class="article-tag">Breaking News · Live</span>
+    </div>
+    <h2>Breaking News: <em>Venice Falls to the Sea</em></h2>
+    <div class="article-rule"></div>
+    <p>We're reporting to you live from Venice, the famous and culturally rich city in Italy that is now in extreme danger. The beloved city that attracts more than 30 million tourists every year has reached a point of no return. The situation is escalating rapidly: severe floodings have caused the level of the lagoon's water to rise by 2 metres, making more than half of Venice completely unwalkable and inhabitable.</p>
+    <p>Alarmingly, the famous San Marco Square is now submerged and people need rain boots just to cross it.</p>
+    <p>Local authorities are calling on residents to flee the city and the lagoon entirely, suggesting seeking refuge with immediate family or close friends until the emergency passes — though it grows clearer by the day that Venice may never return to what it once was, potentially becoming the New Atlantis.</p>
+    <blockquote>
+      "It's devastating seeing the places where I used to play with my friends as a kid all submerged with water. It feels so wrong to leave my birthplace. I would prefer to remain here and die with my city — but it seems we don't have any choice."
+      <cite>— An elderly Venetian resident</cite>
+    </blockquote>
+    <p>We'll be reporting more details as rescue operations continue and we receive further data from authorities.</p>
+  </article>
+
+  <div class="sep"><span>~ ~ ~</span></div>
+
+  <!-- VIDEO 3 -->
+  <article class="article" id="video3">
+    <div class="article-meta">
+      <span class="article-num">03 / 06</span>
+      <span class="article-tag">Culture · Tradition · Cuisine</span>
+    </div>
+    <h2>Venice and the Loss of <em>History, Traditions and Cuisine</em></h2>
+    <div class="article-rule"></div>
+    <p>During the last few years we have witnessed in real time the decay of history, traditions and cultural sites related to Venice — one of the most historically and culturally vibrant cities in Europe, and indeed the entire world.</p>
+    <p>We lost Palazzo Ducale, Ponte di Rialto and Basilica di San Marco to the floodings, and with them the last tangible pieces of Venetian history are gone. Only the tip of the Campanile and a few debris remain — debris that local authorities don't have the emotional strength to remove permanently. This marks the end of one of the greatest maritime republics in history.</p>
+    <p>But Venice itself is not alone in its suffering. The islands of Burano, Murano and Torcello are now almost completely underwater. You may recognise Burano for its colourful houses — well, now those colours serve only to attract fish and crabs. And if you were hoping to find a piece of Murano's famous glass, you'll be out of luck: the furnaces have sunk beneath the waves.</p>
+    <p>Alongside history, the traditions of local people are vanishing — either because they were tied to places now submerged, or because those who practised them no longer feel the motivation to continue. One clear example is the Merletto, a type of lace that was a tradition especially among the older generations of the lagoon.</p>
+    <p>And for food lovers — the news is grim. Have you ever heard of Sarde in saor, Poenta e seppe or Moeche? They are no longer produced in this city. Fishermen have tried to adapt to the new ecosystem, but they can no longer find the fish and molluscs they used to sell. Without raw materials, restaurants are turning to mainland ingredients, and Venice's culinary identity is quietly disappearing.</p>
+  </article>
+
+  <div class="sep"><span>~ ~ ~</span></div>
+
+  <!-- VIDEO 4 -->
+  <article class="article" id="video4">
+    <div class="article-meta">
+      <span class="article-num">04 / 06</span>
+      <span class="article-tag">Ecology · Biodiversity</span>
+    </div>
+    <h2>Lagoon Life: <em>Biodiversity At Its Lowest</em></h2>
+    <div class="article-rule"></div>
+    <p>The crisis in the Venetian lagoon has caused countless problems for many communities. But what of the other inhabitants — the animals and vegetation? Are they adapting to the constant, dramatic changes?</p>
+    <p>Fauna is faring slightly better than flora. The biodiversity of vegetation is severely threatened by rising water levels and tides more impactful than ever before. The scientific community has been raising the alarm for some time, and recent studies show that the near-complete mixing of lagoon and sea water has allowed algae to dominate the ecosystem. Their overproduction is blocking sunlight from reaching the bottom, starving the fauna that lives there.</p>
+    <p>Every animal group has already been affected. Birds that feed on fish in shallow water are now forced to migrate the lagoon entirely. Fish and invertebrates lack adequate sunlight, face constant threats from new marine predators, and have their movements obstructed by shifting sediments. Mammals have long since abandoned the area.</p>
+    <p>The greatest threat is the loss of biodiversity that this transformed habitat will face in the coming months and years. The reality is brutal: we cannot bring back the species that have already left. We can only try to save those that still inhabit what was once Venice — La Serenissima.</p>
+  </article>
+
+  <div class="sep"><span>~ ~ ~</span></div>
+
+  <!-- VIDEO 5 -->
+  <article class="article" id="video5">
+    <div class="article-meta">
+      <span class="article-num">05 / 06</span>
+      <span class="article-tag">Vlog · Satire</span>
+    </div>
+    <h2>Blog: <em>Swimming Through the Wonders of Venice</em></h2>
+    <div class="article-rule"></div>
+    <p>Today I'm taking you on a tour of one of the most famous places in the world — sunken Venice! I decided to visit this wonder of the world, or what is left of it, because you don't often get the opportunity to visit somewhere so full of history and, unfortunately, tragedy.</p>
+    <p>After spending the night in a nearby hotel — amazing international breakfast, by the way — I got a cab to Mestre, where my tour of Venice and the lagoon would begin. I opted for a touristic boat, though a gondola was also available. It was a sunny day, so I went full glamour: designer shoes, fancy trousers, colourful t-shirt and sunglasses. But when I arrived at the imbarcadero, the tour guide Filippo handed us rubber boots, special jackets and life preservers — apparently the lagoon is more dangerous than ever. So, outfit ruined, we set off.</p>
+    <p>Filippo explained some facts about the environment we were about to encounter, and the captain began to steer the boat. It was a genuinely enjoyable journey, with small snacks and stuzzichini typical of Venice. Our first stop was the top of Burano's Campanile — and if you looked closely underwater you could even see the colourful houses arranged like a mosaic for the fish.</p>
+    <p>Next came our main attraction: Venice. We arrived over the Arsenale, where ships used to be built and the Biennale was hosted — ironic, given that both are now rendered impossible by the water level. We followed the path of Canal Grande several metres above where it once was, and even spotted the tip of Rialto's bridge peeking through the surface. Too bad there are no souvenirs to buy — to think we got Venice flooded before GTA VI.</p>
+    <p>Continuing south we reached San Marco's Square, where we caught a glimpse of the Campanile, the Basilica and Palazzo Ducale. We had lunch in this inspiring place, surrounded by submerged art. In the afternoon, Filippo organised a climb to the top of the Campanile — less than half its original height, but still remarkable for the view it offered over the sunken city. We ended our visit near Jesolo, where I could finally showcase my carefully planned outfit once again.</p>
+  </article>
+
+  <div class="sep"><span>~ ~ ~</span></div>
+
+  <!-- VIDEO 6 -->
+  <article class="article" id="video6">
+    <div class="article-meta">
+      <span class="article-num">06 / 06</span>
+      <span class="article-tag">Testimony · Memory</span>
+    </div>
+    <h2>Is Being a Gondolier <em>Still a Job?</em></h2>
+    <div class="article-rule"></div>
+    <p>The life of a gondolier here in Venice is not as the school books describe it. A lot has changed, and the profession that my family has practiced for seven generations is at risk of disappearing. If I compare my daily routine to my father's, they are entirely different. Most people know what a gondolier's day used to look like — but few are aware of what it looks like now.</p>
+    <p>I wake up every day at 7:30 in my flat in Mestre. There is no trace of water here, but if I look at the old photographs of Venice hanging in my rooms, I remember those days and feel a little better. After breakfast I take my car to San Giuliano. What used to be the mainland is now practically the coast. On the way I can see the sea and the tips of the bell towers emerging from the water where Venice once stood.</p>
+    <p>I greet the tourists waiting at San Giuliano's beach — fewer each day — and help them into my gondola. It's difficult to navigate over the old calli, and a weight settles on my chest when I pass over my old house, separated from me now by almost four metres of water. I can still recognise the outlines of the city. I used to show tourists the Bridge of Sighs. Now I show them where it used to be.</p>
+    <blockquote>
+      "I never quite understood why people still come here — perhaps to mourn, like me. But since my job depends on it, I do my best to show them the most beautiful parts of the sunken city."
+      <cite>— Vincenzo, gondolier</cite>
+    </blockquote>
+    <p>At lunch I remain in my gondola, drifting toward Venice, eating a packed lunch with the unreal image of bell towers rising from the water before me. It's just me, the sky and the water. The noise of visitors — which I was so used to — is gone. Only silence and peace. I am getting used to it.</p>
+    <p>When the day ends I return home, turning my back to the sea and to what was once my beautiful city. But just before the sea disappears from sight, I stop and watch the sun set on the coast. Venice is gone. But the light is still the same.</p>
+  </article>
+
+</main>
+
+<footer>
+  <div class="logo-ft">VeNA</div>
+  <p>Sea Beyond Project &nbsp;·&nbsp; Venice &amp; the New Atlantis</p>
+</footer>
+
+</body>
+</html>
